@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dbpagafacilModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tpagcuenta">
+          <Key>
+            <PropertyRef Name="cuenta" />
+          </Key>
+          <Property Name="cuenta" Type="bigint" Nullable="false" />
+          <Property Name="cusuario" Type="bigint" />
+          <Property Name="saldo" Type="numeric" Precision="19" Scale="7" />
+          <Property Name="fultimomov" Type="datetime" />
+          <Property Name="moneda" Type="varchar" MaxLength="10" />
+          <Property Name="estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="tpagmovimiento">
+          <Key>
+            <PropertyRef Name="cmovimiento" />
+          </Key>
+          <Property Name="cmovimiento" Type="bigint" Nullable="false" />
+          <Property Name="ctransaccion" Type="bigint" />
+          <Property Name="cuentaorg" Type="bigint" />
+          <Property Name="cuentades" Type="bigint" />
+          <Property Name="monto" Type="numeric" Precision="19" Scale="7" />
+          <Property Name="debito" Type="bit" />
+          <Property Name="terminal" Type="varchar" MaxLength="1000" />
+          <Property Name="fproceso" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tpagtransaccion">
+          <Key>
+            <PropertyRef Name="ctransaccion" />
+          </Key>
+          <Property Name="ctransaccion" Type="bigint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tsegusuario">
+          <Key>
+            <PropertyRef Name="cusuario" />
+          </Key>
+          <Property Name="cusuario" Type="bigint" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="200" />
+          <Property Name="identificacion" Type="varchar" MaxLength="20" />
+          <Property Name="apellidos" Type="varchar" MaxLength="200" />
+          <Property Name="correo" Type="varchar" MaxLength="100" />
+          <Property Name="telefono" Type="varchar" MaxLength="20" />
+          <Property Name="direccion" Type="char" MaxLength="10" />
+          <Property Name="clave" Type="varchar" MaxLength="200" />
+          <Property Name="clavetmp" Type="varchar" MaxLength="200" />
+          <Property Name="estado" Type="bit" />
+        </EntityType>
+        <Association Name="fk_tpagmovi_reference_tpagcuen">
+          <End Role="tpagcuenta" Type="Self.tpagcuenta" Multiplicity="0..1" />
+          <End Role="tpagmovimiento" Type="Self.tpagmovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tpagcuenta">
+              <PropertyRef Name="cuenta" />
+            </Principal>
+            <Dependent Role="tpagmovimiento">
+              <PropertyRef Name="cuentades" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fktpagcuentatsegusuario">
+          <End Role="tsegusuario" Type="Self.tsegusuario" Multiplicity="0..1" />
+          <End Role="tpagcuenta" Type="Self.tpagcuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tsegusuario">
+              <PropertyRef Name="cusuario" />
+            </Principal>
+            <Dependent Role="tpagcuenta">
+              <PropertyRef Name="cusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fktpagmovimientotpagtransaccion">
+          <End Role="tpagtransaccion" Type="Self.tpagtransaccion" Multiplicity="0..1" />
+          <End Role="tpagmovimiento" Type="Self.tpagmovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tpagtransaccion">
+              <PropertyRef Name="ctransaccion" />
+            </Principal>
+            <Dependent Role="tpagmovimiento">
+              <PropertyRef Name="ctransaccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tpagmovimientotpagcuenta">
+          <End Role="tpagcuenta" Type="Self.tpagcuenta" Multiplicity="0..1" />
+          <End Role="tpagmovimiento" Type="Self.tpagmovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tpagcuenta">
+              <PropertyRef Name="cuenta" />
+            </Principal>
+            <Dependent Role="tpagmovimiento">
+              <PropertyRef Name="cuentaorg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbpagafacilModelStoreContainer">
+          <EntitySet Name="tpagcuenta" EntityType="Self.tpagcuenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tpagmovimiento" EntityType="Self.tpagmovimiento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tpagtransaccion" EntityType="Self.tpagtransaccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tsegusuario" EntityType="Self.tsegusuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_tpagmovi_reference_tpagcuen" Association="Self.fk_tpagmovi_reference_tpagcuen">
+            <End Role="tpagcuenta" EntitySet="tpagcuenta" />
+            <End Role="tpagmovimiento" EntitySet="tpagmovimiento" />
+          </AssociationSet>
+          <AssociationSet Name="fktpagcuentatsegusuario" Association="Self.fktpagcuentatsegusuario">
+            <End Role="tsegusuario" EntitySet="tsegusuario" />
+            <End Role="tpagcuenta" EntitySet="tpagcuenta" />
+          </AssociationSet>
+          <AssociationSet Name="fktpagmovimientotpagtransaccion" Association="Self.fktpagmovimientotpagtransaccion">
+            <End Role="tpagtransaccion" EntitySet="tpagtransaccion" />
+            <End Role="tpagmovimiento" EntitySet="tpagmovimiento" />
+          </AssociationSet>
+          <AssociationSet Name="tpagmovimientotpagcuenta" Association="Self.tpagmovimientotpagcuenta">
+            <End Role="tpagcuenta" EntitySet="tpagcuenta" />
+            <End Role="tpagmovimiento" EntitySet="tpagmovimiento" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbpagafacilModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="coreContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tpagcuenta" EntityType="dbpagafacilModel.tpagcuenta" />
+          <EntitySet Name="tpagmovimiento" EntityType="dbpagafacilModel.tpagmovimiento" />
+          <EntitySet Name="tpagtransaccion" EntityType="dbpagafacilModel.tpagtransaccion" />
+          <EntitySet Name="tsegusuario" EntityType="dbpagafacilModel.tsegusuario" />
+          <AssociationSet Name="fk_tpagmovi_reference_tpagcuen" Association="dbpagafacilModel.fk_tpagmovi_reference_tpagcuen">
+            <End Role="tpagcuenta" EntitySet="tpagcuenta" />
+            <End Role="tpagmovimiento" EntitySet="tpagmovimiento" />
+          </AssociationSet>
+          <AssociationSet Name="fktpagcuentatsegusuario" Association="dbpagafacilModel.fktpagcuentatsegusuario">
+            <End Role="tsegusuario" EntitySet="tsegusuario" />
+            <End Role="tpagcuenta" EntitySet="tpagcuenta" />
+          </AssociationSet>
+          <AssociationSet Name="tpagmovimientotpagcuenta" Association="dbpagafacilModel.tpagmovimientotpagcuenta">
+            <End Role="tpagcuenta" EntitySet="tpagcuenta" />
+            <End Role="tpagmovimiento" EntitySet="tpagmovimiento" />
+          </AssociationSet>
+          <AssociationSet Name="fktpagmovimientotpagtransaccion" Association="dbpagafacilModel.fktpagmovimientotpagtransaccion">
+            <End Role="tpagtransaccion" EntitySet="tpagtransaccion" />
+            <End Role="tpagmovimiento" EntitySet="tpagmovimiento" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tpagcuenta">
+          <Key>
+            <PropertyRef Name="cuenta" />
+          </Key>
+          <Property Name="cuenta" Type="Int64" Nullable="false" />
+          <Property Name="cusuario" Type="Int64" />
+          <Property Name="saldo" Type="Decimal" Precision="19" Scale="7" />
+          <Property Name="fultimomov" Type="DateTime" Precision="3" />
+          <Property Name="moneda" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tpagmovimiento" Relationship="dbpagafacilModel.fk_tpagmovi_reference_tpagcuen" FromRole="tpagcuenta" ToRole="tpagmovimiento" />
+          <NavigationProperty Name="tsegusuario" Relationship="dbpagafacilModel.fktpagcuentatsegusuario" FromRole="tpagcuenta" ToRole="tsegusuario" />
+          <NavigationProperty Name="tpagmovimiento1" Relationship="dbpagafacilModel.tpagmovimientotpagcuenta" FromRole="tpagcuenta" ToRole="tpagmovimiento" />
+        </EntityType>
+        <EntityType Name="tpagmovimiento">
+          <Key>
+            <PropertyRef Name="cmovimiento" />
+          </Key>
+          <Property Name="cmovimiento" Type="Int64" Nullable="false" />
+          <Property Name="ctransaccion" Type="Int64" />
+          <Property Name="cuentaorg" Type="Int64" />
+          <Property Name="cuentades" Type="Int64" />
+          <Property Name="monto" Type="Decimal" Precision="19" Scale="7" />
+          <Property Name="debito" Type="Boolean" />
+          <Property Name="terminal" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="fproceso" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tpagcuenta" Relationship="dbpagafacilModel.fk_tpagmovi_reference_tpagcuen" FromRole="tpagmovimiento" ToRole="tpagcuenta" />
+          <NavigationProperty Name="tpagcuenta1" Relationship="dbpagafacilModel.tpagmovimientotpagcuenta" FromRole="tpagmovimiento" ToRole="tpagcuenta" />
+          <NavigationProperty Name="tpagtransaccion" Relationship="dbpagafacilModel.fktpagmovimientotpagtransaccion" FromRole="tpagmovimiento" ToRole="tpagtransaccion" />
+        </EntityType>
+        <EntityType Name="tpagtransaccion">
+          <Key>
+            <PropertyRef Name="ctransaccion" />
+          </Key>
+          <Property Name="ctransaccion" Type="Int64" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tpagmovimiento" Relationship="dbpagafacilModel.fktpagmovimientotpagtransaccion" FromRole="tpagtransaccion" ToRole="tpagmovimiento" />
+        </EntityType>
+        <EntityType Name="tsegusuario">
+          <Key>
+            <PropertyRef Name="cusuario" />
+          </Key>
+          <Property Name="cusuario" Type="Int64" Nullable="false" />
+          <Property Name="nombres" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="apellidos" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="clave" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="clavetmp" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tpagcuenta" Relationship="dbpagafacilModel.fktpagcuentatsegusuario" FromRole="tsegusuario" ToRole="tpagcuenta" />
+        </EntityType>
+        <Association Name="fk_tpagmovi_reference_tpagcuen">
+          <End Type="dbpagafacilModel.tpagcuenta" Role="tpagcuenta" Multiplicity="0..1" />
+          <End Type="dbpagafacilModel.tpagmovimiento" Role="tpagmovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tpagcuenta">
+              <PropertyRef Name="cuenta" />
+            </Principal>
+            <Dependent Role="tpagmovimiento">
+              <PropertyRef Name="cuentades" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fktpagcuentatsegusuario">
+          <End Type="dbpagafacilModel.tsegusuario" Role="tsegusuario" Multiplicity="0..1" />
+          <End Type="dbpagafacilModel.tpagcuenta" Role="tpagcuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tsegusuario">
+              <PropertyRef Name="cusuario" />
+            </Principal>
+            <Dependent Role="tpagcuenta">
+              <PropertyRef Name="cusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tpagmovimientotpagcuenta">
+          <End Type="dbpagafacilModel.tpagcuenta" Role="tpagcuenta" Multiplicity="0..1" />
+          <End Type="dbpagafacilModel.tpagmovimiento" Role="tpagmovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tpagcuenta">
+              <PropertyRef Name="cuenta" />
+            </Principal>
+            <Dependent Role="tpagmovimiento">
+              <PropertyRef Name="cuentaorg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fktpagmovimientotpagtransaccion">
+          <End Type="dbpagafacilModel.tpagtransaccion" Role="tpagtransaccion" Multiplicity="0..1" />
+          <End Type="dbpagafacilModel.tpagmovimiento" Role="tpagmovimiento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tpagtransaccion">
+              <PropertyRef Name="ctransaccion" />
+            </Principal>
+            <Dependent Role="tpagmovimiento">
+              <PropertyRef Name="ctransaccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbpagafacilModelStoreContainer" CdmEntityContainer="coreContext">
+          <EntitySetMapping Name="tpagcuenta">
+            <EntityTypeMapping TypeName="dbpagafacilModel.tpagcuenta">
+              <MappingFragment StoreEntitySet="tpagcuenta">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="moneda" ColumnName="moneda" />
+                <ScalarProperty Name="fultimomov" ColumnName="fultimomov" />
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="cusuario" ColumnName="cusuario" />
+                <ScalarProperty Name="cuenta" ColumnName="cuenta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tpagmovimiento">
+            <EntityTypeMapping TypeName="dbpagafacilModel.tpagmovimiento">
+              <MappingFragment StoreEntitySet="tpagmovimiento">
+                <ScalarProperty Name="fproceso" ColumnName="fproceso" />
+                <ScalarProperty Name="terminal" ColumnName="terminal" />
+                <ScalarProperty Name="debito" ColumnName="debito" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+                <ScalarProperty Name="cuentades" ColumnName="cuentades" />
+                <ScalarProperty Name="cuentaorg" ColumnName="cuentaorg" />
+                <ScalarProperty Name="ctransaccion" ColumnName="ctransaccion" />
+                <ScalarProperty Name="cmovimiento" ColumnName="cmovimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tpagtransaccion">
+            <EntityTypeMapping TypeName="dbpagafacilModel.tpagtransaccion">
+              <MappingFragment StoreEntitySet="tpagtransaccion">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="ctransaccion" ColumnName="ctransaccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tsegusuario">
+            <EntityTypeMapping TypeName="dbpagafacilModel.tsegusuario">
+              <MappingFragment StoreEntitySet="tsegusuario">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="clavetmp" ColumnName="clavetmp" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="cusuario" ColumnName="cusuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
