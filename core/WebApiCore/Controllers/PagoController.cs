@@ -1,4 +1,7 @@
-﻿using modelo;
+﻿using dal.pagafacil;
+using generales.ef;
+using modelo;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +26,36 @@ namespace WebApiCore.Controllers
 
         [Route("recarga")]
         [HttpPost]
-        [ResponseType(typeof(List<tpagmovimiento>))]
+        [ResponseType(typeof(Response))]
         public HttpResponseMessage recarga(Transaccion recarga)
         {
+            Response resp = new Response();
+            coreContext contexto = new coreContext();
+            Session.FijarContexto(contexto);
+            bool procesado = false;
+            using (var contextoTransaccion = contexto.Database.BeginTransaction())
+            {
+                try
+                {
+                    tpagmovimiento mov = TpagMovimientoDal.crear(1, 1, recarga.cuentadest, recarga.monto);
+                    procesado = TpagCuentaDal.crear(mov);
+                    contexto.SaveChanges();
+                    contextoTransaccion.Commit();
+                    resp.mensaje = "PROCESADO CORRECTAMENTE";
+                }
+                catch (Exception ex)
+                {
+                    contextoTransaccion.Rollback();
+                    resp.status = 400;
+                    resp.mensaje = ex.Message;
+                }
+                finally {
+                    Session.CerrarContexto(contexto);
+                }
 
-            string resp = "";
+
+
+            }
 
             return GetResponse(resp);
 
@@ -43,9 +71,11 @@ namespace WebApiCore.Controllers
         public HttpResponseMessage transacciones()
         {
 
-            string resp = "";
+            coreContext contexto = new coreContext();
+            Session.FijarContexto(contexto);
+            List<tpagtransaccion> lista= TpagTransacccionDal.lista();          
 
-            return GetResponse(resp);
+            return GetResponse(lista);
 
         }
         /// <summary>
@@ -53,23 +83,53 @@ namespace WebApiCore.Controllers
         /// </summary>
         /// <param name="pago"></param>
         /// <returns></returns>
-        [Route("pago")]
+        [Route("transferencia")]
         [HttpPost]
-        [ResponseType(typeof(List<tpagmovimiento>))]
+        [ResponseType(typeof(Response))]
         public HttpResponseMessage pago(Transaccion pago)
         {
 
-            string resp = "";
+            Response resp = new Response();
+            coreContext contexto = new coreContext();
+            Session.FijarContexto(contexto);
+            bool procesado = false;
+            using (var contextoTransaccion = contexto.Database.BeginTransaction())
+            {
+                try
+                {
+                    tpagmovimiento mov = TpagMovimientoDal.crear(1, pago.cuentaorg, pago.cuentadest, pago.monto);
+                    procesado = TpagCuentaDal.crear(mov);
+                    contexto.SaveChanges();
+                    contextoTransaccion.Commit();
+                    resp.mensaje = "PROCESADO CORRECTAMENTE";
 
-            return GetResponse(resp);
+                }
+                catch (Exception ex)
+                {
+                    resp.status = 400;
+                    resp.mensaje = ex.Message;
+                    contextoTransaccion.Rollback();
+                }
+                finally
+                {
+                    Session.CerrarContexto(contexto);
+                }
+
+
+
+            }
+
+            return GetResponse(procesado);
+
 
         }
 
-        private HttpResponseMessage GetResponse(string resp)
+        private HttpResponseMessage GetResponse(object resp)
         {
+            string conten = JsonConvert.SerializeObject(resp);
             var response = new HttpResponseMessage()
             {
-                Content = new StringContent(resp)
+                Content = new StringContent(conten)
             };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 

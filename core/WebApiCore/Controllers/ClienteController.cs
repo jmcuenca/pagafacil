@@ -1,4 +1,8 @@
-﻿using modelo;
+﻿using dal.pagafacil;
+using generales.ef;
+using modelo;
+using modelo.interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +25,14 @@ namespace WebApiCore.Controllers
 
         [Route("saldo")]
         [HttpPost]
-        [ResponseType(typeof(tsegusuario))]
+        [ResponseType(typeof(Response))]
         public HttpResponseMessage saldo(Consulta consulta)
         {
-
-            string resp = "";
-
+            Response resp = new Response();
+            coreContext contexto = new coreContext();
+            Session.FijarContexto(contexto);
+            tpagcuenta cuenta = TpagCuentaDal.buscar(consulta.identificacion);
+            resp.registro = cuenta;            
             return GetResponse(resp);
 
         }
@@ -38,11 +44,20 @@ namespace WebApiCore.Controllers
         [Route("movimientos")]
         [HttpPost]
         [ResponseType(typeof(List<tpagmovimiento>))]
-        public HttpResponseMessage movimientos(ConsultaFecha consulta)
+        public HttpResponseMessage movimientos(Consulta consulta)
         {
 
-            string resp = "";
-
+            Response resp = new Response();
+            coreContext contexto = new coreContext();
+            Session.FijarContexto(contexto);
+            List<tpagmovimiento> movimientos = TpagMovimientoDal.buscar(consulta.identificacion);
+            List<IBean> reg = new List<IBean>();
+            foreach (tpagmovimiento mov in movimientos) {
+                IBean b = (IBean)mov;
+                reg.Add(b);
+            }
+            resp.lregistros = reg;
+            
             return GetResponse(resp);
 
         }
@@ -51,27 +66,37 @@ namespace WebApiCore.Controllers
         /// </summary>
         /// <param name="consultaFecha"></param>
         /// <returns></returns>
-        [Route("movimientosfecha")]
+        [Route("movimientosFecha")]
         [HttpPost]
         [ResponseType(typeof(List<tpagmovimiento>))]
         public HttpResponseMessage movimientosfecha(ConsultaFecha consultaFecha)
         {
 
-            string resp = "";
+            Response resp = new Response();
+            coreContext contexto = new coreContext();
+            Session.FijarContexto(contexto);
+            List<tpagmovimiento> movimientos = TpagMovimientoDal.buscar(consultaFecha.identificacion,consultaFecha.finicio,consultaFecha.ffin);
+            List<IBean> reg = new List<IBean>();
+            foreach (tpagmovimiento mov in movimientos)
+            {
+                IBean b = (IBean)mov;
+                reg.Add(b);
+            }
+            resp.lregistros = reg;
 
             return GetResponse(resp);
 
         }
-        private HttpResponseMessage GetResponse(string resp)
+        private HttpResponseMessage GetResponse(object resp)
         {
+            string conten = JsonConvert.SerializeObject(resp);
             var response = new HttpResponseMessage()
             {
-                Content = new StringContent(resp)
+                Content = new StringContent(conten)
             };
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
             return response;
         }
-
     }
 }

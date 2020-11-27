@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9b55409180064798b73beea50305a647" Name="Diagram1">
-        <EntityTypeShape EntityType="dbpagafacilModel.tpagcuenta" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="dbpagafacilModel.tpagcuenta" Width="1.5" PointX="3" PointY="1.25" />
         <EntityTypeShape EntityType="dbpagafacilModel.tpagmovimiento" Width="1.5" PointX="5.25" PointY="1" />
-        <EntityTypeShape EntityType="dbpagafacilModel.tpagtransaccion" Width="1.5" PointX="3" PointY="5.75" />
-        <EntityTypeShape EntityType="dbpagafacilModel.tsegusuario" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="dbpagafacilModel.tpagtransaccion" Width="1.5" PointX="3" PointY="5.625" />
+        <EntityTypeShape EntityType="dbpagafacilModel.tsegusuario" Width="1.5" PointX="0.75" PointY="1.125" />
         <AssociationConnector Association="dbpagafacilModel.fk_tpagmovi_reference_tpagcuen" />
         <AssociationConnector Association="dbpagafacilModel.fktpagcuentatsegusuario" />
         <AssociationConnector Association="dbpagafacilModel.tpagmovimientotpagcuenta" />

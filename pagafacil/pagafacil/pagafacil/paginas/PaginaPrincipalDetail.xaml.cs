@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
-namespace pagafacil
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace pagafacil.paginas
 {
-    public partial class MainPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class PaginaPrincipalDetail : ContentPage
     {
-        public MainPage()
+        public PaginaPrincipalDetail()
         {
             InitializeComponent();
         }

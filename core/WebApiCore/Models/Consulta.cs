@@ -7,6 +7,6 @@ namespace WebApiCore.Models
 {
     public class Consulta
     {
-        public string cuenta { get; set; }
+        public string identificacion { get; set; }
     }
 }

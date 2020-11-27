@@ -52,11 +52,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="pagafacil\TpagCuentaDal.cs" />
+    <Compile Include="pagafacil\TpagMovimientoDal.cs" />
+    <Compile Include="pagafacil\TpagTransacccionDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="seguridad\TsegUsuarioDal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\generales\generales.csproj">
+      <Project>{FD24C7CE-9FA7-4FB8-BAFF-574430C7E5B1}</Project>
+      <Name>generales</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\modelo\modelo.csproj">
+      <Project>{1F545445-A92A-43B8-9378-25560D296FDD}</Project>
+      <Name>modelo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

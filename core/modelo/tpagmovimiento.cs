@@ -9,11 +9,14 @@
 
 namespace modelo
 {
-    using System;
+    using System;using Newtonsoft.Json;using System.Runtime.Serialization; using interfaces;
     using System.Collections.Generic;
     
-    public partial class tpagmovimiento
+    public partial class tpagmovimiento :IBean
     {
+    public virtual object Clone() {
+    			return this.MemberwiseClone();
+            }
         public long cmovimiento { get; set; }
         public Nullable<long> ctransaccion { get; set; }
         public Nullable<long> cuentaorg { get; set; }
@@ -22,9 +25,16 @@ namespace modelo
         public Nullable<bool> debito { get; set; }
         public string terminal { get; set; }
         public Nullable<System.DateTime> fproceso { get; set; }
+        public string descripcion { get; set; }
     
+    [JsonIgnore]
+    [IgnoreDataMember]
         public virtual tpagcuenta tpagcuenta { get; set; }
+    [JsonIgnore]
+    [IgnoreDataMember]
         public virtual tpagcuenta tpagcuenta1 { get; set; }
+    [JsonIgnore]
+    [IgnoreDataMember]
         public virtual tpagtransaccion tpagtransaccion { get; set; }
     }
 }

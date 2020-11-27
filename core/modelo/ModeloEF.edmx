@@ -28,6 +28,7 @@
           <Property Name="debito" Type="bit" />
           <Property Name="terminal" Type="varchar" MaxLength="1000" />
           <Property Name="fproceso" Type="datetime" />
+          <Property Name="descripcion" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="tpagtransaccion">
           <Key>
@@ -35,6 +36,8 @@
           </Key>
           <Property Name="ctransaccion" Type="bigint" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="200" />
+          <Property Name="debito" Type="bit" />
+          <Property Name="abr" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="tsegusuario">
           <Key>
@@ -173,6 +176,7 @@
           <Property Name="debito" Type="Boolean" />
           <Property Name="terminal" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="fproceso" Type="DateTime" Precision="3" />
+          <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tpagcuenta" Relationship="dbpagafacilModel.fk_tpagmovi_reference_tpagcuen" FromRole="tpagmovimiento" ToRole="tpagcuenta" />
           <NavigationProperty Name="tpagcuenta1" Relationship="dbpagafacilModel.tpagmovimientotpagcuenta" FromRole="tpagmovimiento" ToRole="tpagcuenta" />
           <NavigationProperty Name="tpagtransaccion" Relationship="dbpagafacilModel.fktpagmovimientotpagtransaccion" FromRole="tpagmovimiento" ToRole="tpagtransaccion" />
@@ -183,6 +187,8 @@
           </Key>
           <Property Name="ctransaccion" Type="Int64" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="debito" Type="Boolean" />
+          <Property Name="abr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tpagmovimiento" Relationship="dbpagafacilModel.fktpagmovimientotpagtransaccion" FromRole="tpagtransaccion" ToRole="tpagmovimiento" />
         </EntityType>
         <EntityType Name="tsegusuario">
@@ -249,7 +255,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -270,6 +276,7 @@
           <EntitySetMapping Name="tpagmovimiento">
             <EntityTypeMapping TypeName="dbpagafacilModel.tpagmovimiento">
               <MappingFragment StoreEntitySet="tpagmovimiento">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="fproceso" ColumnName="fproceso" />
                 <ScalarProperty Name="terminal" ColumnName="terminal" />
                 <ScalarProperty Name="debito" ColumnName="debito" />
@@ -284,6 +291,8 @@
           <EntitySetMapping Name="tpagtransaccion">
             <EntityTypeMapping TypeName="dbpagafacilModel.tpagtransaccion">
               <MappingFragment StoreEntitySet="tpagtransaccion">
+                <ScalarProperty Name="abr" ColumnName="abr" />
+                <ScalarProperty Name="debito" ColumnName="debito" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="ctransaccion" ColumnName="ctransaccion" />
               </MappingFragment>

@@ -9,8 +9,9 @@ namespace WebApiCore.Models
     {
        public int transaccion { get; set; }
         public decimal monto { get; set; }
-        public string usuario { get; set; }
-        public string codigo { get; set; }
+        public long cuentaorg { get; set; }
+        public long cuentadest { get; set; }
+        
 
     }
 }

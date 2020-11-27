@@ -38,10 +38,10 @@ namespace WebApiCore
                         // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //
                         // HABILITAMOS LA AUTENTICACIÓN JWT.
-                        c.ApiKey("Authorization")
-                        .Description("Introduce el Token JWT aquí.")
-                        .Name("Bearer")
-                        .In("header");
+                        //c.ApiKey("Authorization")
+                        //.Description("Introduce el Token JWT aquí.")
+                        //.Name("Bearer")
+                        //.In("header");
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
@@ -50,7 +50,7 @@ namespace WebApiCore
                     })
                 .EnableSwaggerUi(c =>
                     {
-                        c.EnableApiKeySupport("Authorization", "header");
+                        //c.EnableApiKeySupport("Authorization", "header");
 
                     });
         }

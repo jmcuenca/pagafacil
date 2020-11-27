@@ -1,4 +1,5 @@
-﻿using System;
+﻿using pagafacil.paginas;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,8 +11,7 @@ namespace pagafacil
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            MainPage = new   NavigationPage(new PaginaPrincipal());
         }
 
         protected override void OnStart()

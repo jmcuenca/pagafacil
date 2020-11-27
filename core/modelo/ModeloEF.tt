@@ -26,6 +26,9 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 <#=codeStringGenerator.UsingDirectives(inHeader: false)#>
 <#=codeStringGenerator.EntityClassOpening(entity)#>
 {
+public virtual object Clone() {
+			return this.MemberwiseClone();
+        }
 <#
     var propertiesWithDefaultValues = typeMapper.GetPropertiesWithDefaultValues(entity);
     var collectionNavigationProperties = typeMapper.GetCollectionNavigationProperties(entity);
@@ -103,6 +106,8 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 <#
             }
 #>
+[JsonIgnore]
+[IgnoreDataMember]
     <#=codeStringGenerator.NavigationProperty(navigationProperty)#>
 <#
         }
@@ -315,7 +320,7 @@ public class CodeStringGenerator
     {
         return string.Format(
             CultureInfo.InvariantCulture,
-            "{0} {1}partial class {2}{3}",
+            "{0} {1}partial class {2}{3} :IBean",
             Accessibility.ForType(entity),
             _code.SpaceAfter(_code.AbstractOption(entity)),
             _code.Escape(entity),
@@ -425,7 +430,7 @@ public class CodeStringGenerator
         return inHeader == string.IsNullOrEmpty(_code.VsNamespaceSuggestion())
             ? string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}using System;{1}" +
+                "{0}using System;using Newtonsoft.Json;using System.Runtime.Serialization; using interfaces;{1}" +
                 "{2}",
                 inHeader ? Environment.NewLine : "",
                 includeCollections ? (Environment.NewLine + "using System.Collections.Generic;") : "",

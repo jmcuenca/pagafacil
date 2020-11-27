@@ -9,11 +9,14 @@
 
 namespace modelo
 {
-    using System;
+    using System;using Newtonsoft.Json;using System.Runtime.Serialization; using interfaces;
     using System.Collections.Generic;
     
-    public partial class tsegusuario
+    public partial class tsegusuario :IBean
     {
+    public virtual object Clone() {
+    			return this.MemberwiseClone();
+            }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tsegusuario()
         {
@@ -32,6 +35,8 @@ namespace modelo
         public Nullable<bool> estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    [JsonIgnore]
+    [IgnoreDataMember]
         public virtual ICollection<tpagcuenta> tpagcuenta { get; set; }
     }
 }

@@ -55,6 +55,9 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
@@ -80,9 +83,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -111,6 +111,7 @@
     </Compile>
     <Compile Include="Models\Consulta.cs" />
     <Compile Include="Models\ConsultaFecha.cs" />
+    <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Pago.cs" />
     <Compile Include="Models\Transaccion.cs" />
@@ -129,6 +130,14 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\dal\dal.csproj">
+      <Project>{68F972EB-5D48-4781-9799-18C76E932A1A}</Project>
+      <Name>dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\generales\generales.csproj">
+      <Project>{FD24C7CE-9FA7-4FB8-BAFF-574430C7E5B1}</Project>
+      <Name>generales</Name>
+    </ProjectReference>
     <ProjectReference Include="..\modelo\modelo.csproj">
       <Project>{1f545445-a92a-43b8-9378-25560d296fdd}</Project>
       <Name>modelo</Name>
