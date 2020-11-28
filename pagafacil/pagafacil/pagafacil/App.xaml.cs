@@ -1,4 +1,5 @@
-﻿using pagafacil.paginas;
+﻿using pagafacil.interfaces;
+using pagafacil.paginas;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,7 +12,9 @@ namespace pagafacil
         public App()
         {
             InitializeComponent();
-            MainPage = new   NavigationPage(new PaginaPrincipal());
+            Properties["loging"] = false;
+            MainPage = new NavigationPage(new PaginaPrincipal());
+
         }
 
         protected override void OnStart()
@@ -27,6 +30,16 @@ namespace pagafacil
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        public void ShowMainPage()
+        {
+            
+        }
+
+        public void salir()
+        {
+            
         }
     }
 }

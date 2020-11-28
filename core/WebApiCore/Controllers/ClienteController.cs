@@ -15,6 +15,7 @@ using WebApiCore.Models;
 
 namespace WebApiCore.Controllers
 {
+    [RoutePrefix("api")]
     public class ClienteController : ApiController
     {
         /// <summary>
